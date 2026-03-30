@@ -1,0 +1,40 @@
+<%- include("../partials/header") %>
+
+<div class="hero">
+  <div class="hero-inner">
+    <h2>Welcome.</h2>
+    <p>Browse categories, manage items, and keep your inventory organized.</p>
+  </div>
+</div>
+
+<main>
+<div class="page-header">
+  <h2>Categories</h2>
+  <a href="/categories/new" class="btn btn-primary">+ New Category</a>
+</div>
+
+<% if (categories.length === 0) { %>
+  <p class="empty">No categories yet. Create one to get started!</p>
+<% } else { %>
+  <div class="grid">
+    <% categories.forEach(cat => { %>
+      <a href="/categories/<%= cat.id %>" class="card" style="text-decoration:none;color:inherit;">
+        <div class="card-banner"></div>
+        <div class="card-body">
+          <div class="card-body-row">
+            <div class="stat-chip"><%= cat.item_count %></div>
+            <div class="card-text">
+              <h3><%= cat.name %></h3>
+              <span style="color: var(--muted); font-size: 0.85rem;"><%= cat.item_count %> item<%= cat.item_count !== 1 ? 's' : '' %></span>
+            </div>
+          </div>
+          <% if (cat.description) { %>
+            <p style="margin-top: 0.75rem; color: var(--muted); font-size: 0.9rem;"><%= cat.description %></p>
+          <% } %>
+        </div>
+      </a>
+    <% }) %>
+  </div>
+<% } %>
+
+<%- include("../partials/footer") %>

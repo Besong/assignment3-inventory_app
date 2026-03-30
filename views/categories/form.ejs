@@ -1,0 +1,31 @@
+<%- include("../partials/header") %>
+<main>
+
+<h2 style="margin-bottom: 1rem;"><%= category && category.id ? 'Edit' : 'New' %> Category</h2>
+
+<% if (error) { %>
+  <div class="error"><%= error %></div>
+<% } %>
+
+<form action="<%= category && category.id ? `/categories/${category.id}/update` : '/categories' %>" method="POST" class="form-card">
+  <div class="form-group">
+    <label for="name">Name</label>
+    <input type="text" id="name" name="name" value="<%= category ? category.name || '' : '' %>" required>
+  </div>
+  <div class="form-group">
+    <label for="description">Description</label>
+    <textarea id="description" name="description"><%= category ? category.description || '' : '' %></textarea>
+  </div>
+  <% if (category && category.id) { %>
+    <div class="form-group">
+      <label for="admin_password">Admin Password (required to update)</label>
+      <input type="password" id="admin_password" name="admin_password" required>
+    </div>
+  <% } %>
+  <div class="actions">
+    <button type="submit" class="btn btn-primary"><%= category && category.id ? 'Update' : 'Create' %> Category</button>
+    <a href="/categories" class="btn btn-outline">Cancel</a>
+  </div>
+</form>
+
+<%- include("../partials/footer") %>

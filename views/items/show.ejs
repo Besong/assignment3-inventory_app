@@ -1,0 +1,42 @@
+<%- include("../partials/header") %>
+<main>
+
+<div class="detail-header">
+  <h2><%= item.name %></h2>
+  <span class="badge"><%= item.category_name %></span>
+</div>
+
+<% if (typeof error !== 'undefined' && error) { %>
+  <div class="error"><%= error %></div>
+<% } %>
+
+<div class="form-card">
+  <p class="price">$<%= parseFloat(item.price).toFixed(2) %></p>
+  <p class="stock <%= item.quantity < 10 ? 'low' : '' %>" style="margin-top: 0.5rem; font-size: 1.1rem;">
+    <%= item.quantity %> in stock
+  </p>
+  <% if (item.description) { %>
+    <p style="margin-top: 1rem; color: var(--muted);"><%= item.description %></p>
+  <% } %>
+  <div class="actions">
+    <a href="/items/<%= item.id %>/edit" class="btn btn-outline">Edit</a>
+    <a href="/categories/<%= item.category_id %>" class="btn btn-outline">View Category</a>
+  </div>
+</div>
+
+<div class="delete-section">
+  <details>
+    <summary>Delete this item</summary>
+    <p style="margin-top:0.5rem; color: var(--muted); font-size: 0.9rem;">
+      This will permanently delete "<%= item.name %>". Enter the admin password to confirm.
+    </p>
+    <form action="/items/<%= item.id %>/delete" method="POST" class="delete-form">
+      <div class="form-group">
+        <input type="password" name="admin_password" placeholder="Admin password" required>
+      </div>
+      <button type="submit" class="btn btn-danger">Delete Item</button>
+    </form>
+  </details>
+</div>
+
+<%- include("../partials/footer") %>

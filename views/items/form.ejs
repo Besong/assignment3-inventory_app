@@ -1,0 +1,48 @@
+<%- include("../partials/header") %>
+<main>
+
+<h2 style="margin-bottom: 1rem;"><%= item && item.id ? 'Edit' : 'New' %> Item</h2>
+
+<% if (error) { %>
+  <div class="error"><%= error %></div>
+<% } %>
+
+<form action="<%= item && item.id ? `/items/${item.id}/update` : '/items' %>" method="POST" class="form-card">
+  <div class="form-group">
+    <label for="name">Name</label>
+    <input type="text" id="name" name="name" value="<%= item ? item.name || '' : '' %>" required>
+  </div>
+  <div class="form-group">
+    <label for="description">Description</label>
+    <textarea id="description" name="description"><%= item ? item.description || '' : '' %></textarea>
+  </div>
+  <div class="form-group">
+    <label for="price">Price ($)</label>
+    <input type="number" id="price" name="price" step="0.01" min="0" value="<%= item ? item.price || '' : '' %>" required>
+  </div>
+  <div class="form-group">
+    <label for="quantity">Quantity</label>
+    <input type="number" id="quantity" name="quantity" min="0" value="<%= item ? item.quantity || 0 : 0 %>">
+  </div>
+  <div class="form-group">
+    <label for="category_id">Category</label>
+    <select id="category_id" name="category_id" required>
+      <option value="">Select a category</option>
+      <% categories.forEach(cat => { %>
+        <option value="<%= cat.id %>" <%= (item && (item.category_id == cat.id)) ? 'selected' : '' %>><%= cat.name %></option>
+      <% }) %>
+    </select>
+  </div>
+  <% if (item && item.id) { %>
+    <div class="form-group">
+      <label for="admin_password">Admin Password (required to update)</label>
+      <input type="password" id="admin_password" name="admin_password" required>
+    </div>
+  <% } %>
+  <div class="actions">
+    <button type="submit" class="btn btn-primary"><%= item && item.id ? 'Update' : 'Create' %> Item</button>
+    <a href="/items" class="btn btn-outline">Cancel</a>
+  </div>
+</form>
+
+<%- include("../partials/footer") %>
